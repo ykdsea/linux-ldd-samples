@@ -1,0 +1,40 @@
+test cases:
+a)
+//create device file, 229 is the major of the device
+mknod /dev/scrull0 c 229 0
+mknod /dev/scrull1 c 229 1
+mknod /dev/scrull2 c 229 2
+mknod /dev/scrull3 c 229 3
+
+//test if /dev/scrull3 the read only device can write
+echo "abcde" > /dev/scrull3
+cat /dev/scrull3
+cat /dev/scrull0
+
+//write & read test
+echo "12345" > /dev/scrull0
+cat /dev/scrull0
+cat /dev/scrull1  
+cat /dev/scrull2
+cat /dev/scrull3
+cat /dev/scrull0
+
+
+dd if=/system/bin/surfaceflinger of=/dev/scrull1 skip=1 count=204 bs=100
+cat /dev/scrull0
+cat /dev/scrull3
+
+
+b) insmod with major
+insmod /system/lib/scrull.ko scrullmajor=999
+
+mknod /dev/scrull0 c 999 0
+mknod /dev/scrull1 c 999 1
+mknod /dev/scrull2 c 999 2
+mknod /dev/scrull3 c 999 3
+
+
+c) 
+ioctl 测试
+
+
